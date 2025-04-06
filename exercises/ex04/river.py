@@ -21,20 +21,52 @@ class River:
             self.bears.append(Bear())
 
     def check_ages(self):
-        if Fish.age > 3:
-            
+        current_bears: list[Bear] = []
+        current_fish: list[Fish] = []
+        for bears in self.bears:
+            if bears.age <= 5:
+                current_bears.append(bears)
+        self.bears = current_bears
+
+        for fish in self.fish:
+            if fish.age <= 3:
+                current_fish.append(fish)
+        self.bears = current_bears
         return None
 
     def bears_eating(self):
+        """Removes fish from river is bear is hungry"""
+        for bear in self.bears:
+            if len(self.fish) >= 5:
+                self.remove_fish(3)
+                bear.eat(3)
         return None
 
     def check_hunger(self):
+        """Removes starving bears from river"""
+        surviving_bears: list[Bear] = []
+        for bears in self.bears:
+            if bears.hunger_score >= 0:
+                surviving_bears.append(bears)
+        self.bears = surviving_bears
         return None
 
     def repopulate_fish(self):
+        """Causes fish to reproduce if there are enough"""
+        new_fish: int = len(self.fish) // 2 * 4
+
+        while new_fish > 0:
+            self.fish.append(Fish())
+            new_fish -= 1
         return None
 
     def repopulate_bears(self):
+        """Causes bears to reproduce if there are enough"""
+        new_bears: int = len(self.bears) // 2
+
+        while new_bears > 0:
+            self.bears.append(Bear())
+            new_bears -= 1
         return None
 
     def view_river(self):
@@ -74,4 +106,13 @@ class River:
         self.one_river_day()
         self.one_river_day()
         self.one_river_day()
+        return None
+
+    def remove_fish(self, amount: int) -> None:
+        """Removes amount of fish from the river"""
+        remove: int = 0
+
+        while remove <= amount and len(self.fish) > 0:
+            self.fish.pop(0)
+            remove += 1
         return None
